@@ -168,16 +168,67 @@ class MiltonController extends Controller
     }
 
     /**
-     * Busca un producto por código en productos_soda o productos_ticket
+     * Busca productos para el selector remoto o por código exacto.
      */
     protected function buscarProducto(Request $request)
     {
+        // Si viene el parámetro term (Select2), devolver un listado.
+        if ($request->filled('term')) {
+            $term = $request->input('term');
+
+            $productosSoda = ProductoSoda::query()
+                ->select('codigo_softland as codigo', 'nombre', 'precio')
+                ->where('activo', true)
+                ->where(function ($query) use ($term) {
+                    $query->where('codigo_softland', 'like', '%' . $term . '%')
+                        ->orWhere('nombre', 'like', '%' . $term . '%');
+                })
+                ->limit(15)
+                ->get()
+                ->map(function ($producto) {
+                    return [
+                        'codigo' => $producto->codigo,
+                        'nombre' => $producto->nombre,
+                        'precio' => $producto->precio,
+                        'tipo' => 'soda',
+                        'etiqueta' => sprintf('S - %s - %s', $producto->nombre, $producto->codigo),
+                    ];
+                });
+
+            $productosTicket = Ticket::query()
+                ->select('codigo', 'nombre', 'precio')
+                ->where(function ($query) use ($term) {
+                    $query->where('codigo', 'like', '%' . $term . '%')
+                        ->orWhere('nombre', 'like', '%' . $term . '%');
+                })
+                ->limit(15)
+                ->get()
+                ->map(function ($producto) {
+                    return [
+                        'codigo' => $producto->codigo,
+                        'nombre' => $producto->nombre,
+                        'precio' => $producto->precio,
+                        'tipo' => 'ticket',
+                        'etiqueta' => sprintf('T - %s - %s', $producto->nombre, $producto->codigo),
+                    ];
+                });
+
+            $productos = $productosSoda->concat($productosTicket)->values();
+
+            return response()->json([
+                'success' => true,
+                'productos' => $productos,
+            ]);
+        }
+
+        // Búsqueda puntual por código (respaldo).
         $validator = Validator::make($request->all(), [
             'codigo'       => ['required', 'string'],
         ], [
-            'codigo.required' => 'El codigo es obligatorio.',
-            'codigo.string'   => 'El codigo debe ser un texto válido.',
+            'codigo.required' => 'El código es obligatorio.',
+            'codigo.string'   => 'El código debe ser un texto válido.',
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -187,7 +238,6 @@ class MiltonController extends Controller
         }
 
         $codigo = $request->codigo;
-        // Buscar en productos_soda por codigo_softland
         $productoSoda = ProductoSoda::where('codigo_softland', $codigo)
             ->where('activo', true)
             ->first();
@@ -199,13 +249,12 @@ class MiltonController extends Controller
                     'codigo' => $productoSoda->codigo_softland,
                     'nombre' => $productoSoda->nombre,
                     'precio' => $productoSoda->precio,
-                    'tipo' => 'soda'
+                    'tipo' => 'soda',
                 ]
             ]);
         }
 
-        // Buscar en ticketes por codigo
-        $productoTicket =  Ticket::where('codigo', $codigo)->first();
+        $productoTicket = Ticket::where('codigo', $codigo)->first();
 
         if ($productoTicket) {
             return response()->json([
@@ -214,15 +263,14 @@ class MiltonController extends Controller
                     'codigo' => $productoTicket->codigo,
                     'nombre' => $productoTicket->nombre,
                     'precio' => $productoTicket->precio,
-                    'tipo' => 'ticket'
+                    'tipo' => 'ticket',
                 ]
             ]);
         }
 
-        // Si no se encuentra en ninguna tabla
         return response()->json([
             'success' => false,
-            'message' => 'Producto no encontrado con el código proporcionado'
+            'message' => 'Producto no encontrado con el código proporcionado',
         ], 404);
     }
 }

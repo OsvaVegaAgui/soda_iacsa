@@ -11,63 +11,59 @@ $(document).ready(function() {
     // Contador para los detalles
     let contadorDetalles = 0;
 
-    // Función para buscar producto por código
-    function buscarProductoPorCodigo(codigo) {
-        if (!codigo || codigo.trim() === '') {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Atención',
-                text: 'Por favor ingrese un código',
-                confirmButtonText: 'Entendido'
-            });
-            return;
-        }
+    // Inicializar Select2 para la búsqueda remota
+    const $selectorProducto = $('#selectorProducto');
+    if ($selectorProducto.length) {
+        $selectorProducto.select2({
+            width: '100%',
+            placeholder: 'Busca por nombre o código',
+            allowClear: true,
+            minimumInputLength: 2,
+            language: {
+                inputTooShort: () => 'Ingrese al menos 2 caracteres',
+                noResults: () => 'Sin resultados',
+                searching: () => 'Buscando...'
+            },
+            ajax: {
+                url: window.buscarProductoUrl,
+                dataType: 'json',
+                delay: 300,
+                data: function(params) {
+                    return {
+                        term: params.term || ''
+                    };
+                },
+                processResults: function(response) {
+                    if (!response.success || !Array.isArray(response.productos)) {
+                        return { results: [] };
+                    }
 
-        // Mostrar loading
-        Swal.fire({
-            title: 'Buscando...',
-            text: 'Por favor espere',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
+                    const resultados = response.productos.map(function(producto) {
+                        return {
+                            id: producto.codigo,
+                            text: producto.etiqueta || `${producto.nombre} - ${producto.codigo}`,
+                            producto: producto
+                        };
+                    });
+
+                    return { results: resultados };
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo cargar el listado de productos',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
             }
         });
 
-        // Realizar búsqueda por AJAX
-        $.ajax({
-            url: window.buscarProductoUrl,
-            method: 'GET',
-            data: { codigo: codigo.trim() },
-            success: function(response) {
-                Swal.close();
-                
-                if (response.success && response.producto) {
-                    // Agregar el producto a la tabla
-                    agregarProductoDesdeBusqueda(response.producto);
-                    // Limpiar el campo de búsqueda
-                    $('#codigoBusqueda').val('').focus();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Producto no encontrado',
-                        text: response.message || 'No se encontró un producto con ese código',
-                        confirmButtonText: 'Entendido'
-                    });
-                }
-            },
-            error: function(xhr) {
-                Swal.close();
-                let mensaje = 'Error al buscar el producto';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    mensaje = xhr.responseJSON.message;
-                }
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: mensaje,
-                    confirmButtonText: 'Aceptar'
-                });
+        $selectorProducto.on('select2:select', function(e) {
+            const data = e.params.data;
+            if (data && data.producto) {
+                agregarProductoDesdeBusqueda(data.producto);
+                $selectorProducto.val(null).trigger('change');
             }
         });
     }
@@ -128,7 +124,7 @@ $(document).ready(function() {
                            class="form-control nombre readonly" 
                            name="detalles[${contadorDetalles}][nombre]" 
                            value="${nombreEscapado}"
-                           placeholder="Nombre del producto" readonly disabled>
+                           placeholder="Nombre del producto" readonly>
                 </td>
                 <td>
                     <input type="number" 
@@ -181,21 +177,6 @@ $(document).ready(function() {
             showConfirmButton: false
         });
     }
-
-    // Evento para buscar producto al presionar Enter en el campo de búsqueda
-    $('#codigoBusqueda').on('keypress', function(e) {
-        if (e.which === 13) { // Enter
-            e.preventDefault();
-            const codigo = $(this).val();
-            buscarProductoPorCodigo(codigo);
-        }
-    });
-
-    // Evento para buscar producto al hacer clic en el botón
-    $('#btnBuscarProducto').on('click', function() {
-        const codigo = $('#codigoBusqueda').val();
-        buscarProductoPorCodigo(codigo);
-    });
 
     // Evento para eliminar fila
     $(document).on('click', '.btnEliminarFila', function() {

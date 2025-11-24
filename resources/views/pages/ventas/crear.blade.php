@@ -65,20 +65,11 @@
                             <div class="card custom-card bg-light">
                                 <div class="card-body">
                                     <h6 class="mb-3">Búsqueda Rápida por Código</h6>
-                                    <div class="input-group">
-                                        <input type="text" 
-                                               class="form-control" 
-                                               id="codigoBusqueda" 
-                                               placeholder="Ingrese el código del producto y presione Enter"
-                                               autocomplete="off">
-                                        <button type="button" 
-                                                class="btn btn-primary" 
-                                                id="btnBuscarProducto">
-                                            <i class="ri-search-line me-1"></i>Buscar
-                                        </button>
-                                    </div>
-                                    <small class="text-muted">
-                                        Busca en productos_soda (codigo_softland) y productos_cocina (codigo)
+                                    <select id="selectorProducto" class="form-select" style="width: 100%;">
+                                        <option value="">{{ __('Busca por nombre o código') }}</option>
+                                    </select>
+                                    <small class="text-muted d-block mt-2">
+                                        Escribe para listar productos de soda (S - Nombre - Código) y tickets (T - Nombre - Código).
                                     </small>
                                 </div>
                             </div>
