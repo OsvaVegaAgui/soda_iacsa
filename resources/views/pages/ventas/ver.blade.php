@@ -98,8 +98,8 @@
                                     @forelse($venta->detalles as $detalle)
                                         <tr>
                                             <td>{{ $detalle->id }}</td>
+                                            <td>{{ $detalle->nombre_producto ?? 'N/A' }}</td>
                                             <td>{{ $detalle->codigo }}</td>
-                                            <td>{{ $detalle->nombre }}</td>s
                                             <td>{{ $detalle->cantidad_vendida }}</td>
                                             <td>₡{{ number_format($detalle->precio_unitario, 2) }}</td>
                                             <td>₡{{ number_format($detalle->subtotal, 2) }}</td>

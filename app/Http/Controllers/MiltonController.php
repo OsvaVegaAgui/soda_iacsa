@@ -155,14 +155,27 @@ class MiltonController extends Controller
      */
     protected function ver($id)
     {
-        // Buscar la venta con sus relaciones
-        $venta = Venta::with(['user', 'detalles'])->find($id);
+        // Buscar la venta con su usuario
+        $venta = Venta::with(['user'])->find($id);
         
         // Si no existe la venta, redirigir a la lista
         if (!$venta) {
             return redirect()->route('ventas', ['accion' => 'lista'])
                 ->with('error', 'Venta no encontrada');
         }
+
+        // Cargar detalles con el nombre proveniente del catálogo correspondiente
+        $detalles = DetalleVenta::query()
+            ->where('venta_id', $venta->id)
+            ->leftJoin('productos_soda as ps', 'ps.codigo_softland', '=', 'detalle_venta.codigo')
+            ->leftJoin('ticket as tk', 'tk.codigo', '=', 'detalle_venta.codigo')
+            ->select(
+                'detalle_venta.*',
+                DB::raw("COALESCE(ps.nombre, tk.nombre) as nombre_producto")
+            )
+            ->get();
+
+        $venta->setRelation('detalles', $detalles);
         
         return view('pages.ventas.ver', compact('venta'));
     }
