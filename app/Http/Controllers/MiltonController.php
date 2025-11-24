@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator; // para validar los datos
 use App\Models\Venta;
+use App\Models\User;
 use App\Models\DetalleVenta;
-
+use App\Models\ProductoSoda;
+use App\Models\Ticket;
 class MiltonController extends Controller
 {
     /**
@@ -39,6 +42,10 @@ class MiltonController extends Controller
                     return redirect()->route('ventas', ['accion' => 'lista']);
                 }
                 return $this->ver($id);
+            
+            case 'buscar-producto':
+                // Buscar producto por código
+                return $this->buscarProducto($request);
             
             default:
                 // Si la acción no existe, redirigir a la lista
@@ -158,5 +165,64 @@ class MiltonController extends Controller
         }
         
         return view('pages.ventas.ver', compact('venta'));
+    }
+
+    /**
+     * Busca un producto por código en productos_soda o productos_ticket
+     */
+    protected function buscarProducto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'codigo'       => ['required', 'string'],
+        ], [
+            'codigo.required' => 'El codigo es obligatorio.',
+            'codigo.string'   => 'El codigo debe ser un texto válido.',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Revise los campos del formulario.',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        $codigo = $request->codigo;
+        // Buscar en productos_soda por codigo_softland
+        $productoSoda = ProductoSoda::where('codigo_softland', $codigo)
+            ->where('activo', true)
+            ->first();
+
+        if ($productoSoda) {
+            return response()->json([
+                'success' => true,
+                'producto' => [
+                    'codigo' => $productoSoda->codigo_softland,
+                    'nombre' => $productoSoda->nombre,
+                    'precio' => $productoSoda->precio,
+                    'tipo' => 'soda'
+                ]
+            ]);
+        }
+
+        // Buscar en ticketes por codigo
+        $productoTicket =  Ticket::where('codigo', $codigo)->first();
+
+        if ($productoTicket) {
+            return response()->json([
+                'success' => true,
+                'producto' => [
+                    'codigo' => $productoTicket->codigo,
+                    'nombre' => $productoTicket->nombre,
+                    'precio' => $productoTicket->precio,
+                    'tipo' => 'ticket'
+                ]
+            ]);
+        }
+
+        // Si no se encuentra en ninguna tabla
+        return response()->json([
+            'success' => false,
+            'message' => 'Producto no encontrado con el código proporcionado'
+        ], 404);
     }
 }
