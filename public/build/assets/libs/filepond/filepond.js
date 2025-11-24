@@ -1,5 +1,5 @@
 /*!
- * FilePond 4.32.7
+ * FilePond 4.32.10
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
  */
@@ -9025,8 +9025,8 @@
     var getItemHeight = function getItemHeight(child) {
         return (
             child.rect.element.height +
-            child.rect.element.marginBottom * 0.5 +
-            child.rect.element.marginTop * 0.5
+            child.rect.element.marginBottom +
+            child.rect.element.marginTop
         );
     };
     var getItemWidth = function getItemWidth(child) {
@@ -10541,7 +10541,8 @@
         var isActiveElementEditable =
             activeEl &&
             (/textarea|input/i.test(activeEl.nodeName) ||
-                activeEl.getAttribute('contenteditable') === 'true');
+                activeEl.getAttribute('contenteditable') === 'true' ||
+                activeEl.getAttribute('contenteditable') === '');
 
         if (isActiveElementEditable) {
             // test textarea or input is contained in filepond root

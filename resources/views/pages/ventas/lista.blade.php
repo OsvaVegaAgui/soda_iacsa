@@ -105,19 +105,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     @vite('resources/assets/js/datatables.js')
+    @vite('resources/assets/js/milton/lista-venta.js')
 
-    <script>
-        // Inicializar DataTable cuando el documento esté listo
-        $(document).ready(function () {
-            $('#tablaVentas').DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json'
-                },
-                responsive: true,
-                order: [[0, 'desc']] // Ordenar por ID descendente (más recientes primero)
-            });
-        });
-    </script>
 
 @endsection
 
