@@ -32,7 +32,7 @@ Route::prefix('productos-soda')->controller(ThayronController::class)->group(fun
 });
 
 Route::prefix('ticketes')->controller(MarcosController::class)->group(function () {
-    Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('productos-soda');
+    Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('ticketes-soda');
 });
 
 Route::prefix('generar-ticketes')->controller(OsvaldoController::class)->group(function () {

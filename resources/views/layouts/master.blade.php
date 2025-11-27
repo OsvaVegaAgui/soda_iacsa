@@ -14,6 +14,10 @@
 
         <!-- Title-->
         <title> Vyzor - Laravel Bootstrap 5 Premium Admin & Dashboard Template </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+        <!-- DataTables -->
+        <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  
         
         <!-- Favicon -->
         <link rel="icon" href="{{asset('build/assets/images/brand-logos/favicon.ico')}}" type="image/x-icon">
