@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Desayuno;
+
+use App\Models\Almuerzo;
+
+use App\Models\Refrigerio;
+
 class LuisController extends Controller
 {
 
@@ -21,7 +27,13 @@ class LuisController extends Controller
 
     protected function crear()
     {
-        return view('pages.menu_admin.crear');
+        $desayunos = Desayuno::all();
+
+        $almuerzos = Almuerzo::all();
+
+        $refrigerios = Refrigerio::all();
+        
+        return view('pages.menu_site.menuSemanal', compact('desayunos','almuerzos','refrigerios'));
     }
 
 

@@ -184,6 +184,33 @@
 								</ul>
 							</li>
 
+							<!-- Start::slide Ventas -->
+							<li class="slide has-sub">
+								<a href="javascript:void(0);" class="side-menu__item">
+									<svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M40,112H216v32H40Z" opacity="0.2"/><path d="M40,112H216v32H40Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M64,48H192a8,8,0,0,1,8,8V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56A8,8,0,0,1,64,48Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="96" y1="80" x2="160" y2="80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="96" y1="176" x2="160" y2="176" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+									<span class="side-menu__label">Ventas</span>
+									<i class="ri-arrow-right-s-line side-menu__angle"></i>
+								</a>
+								<ul class="slide-menu child1">
+									<li class="slide side-menu__label1">
+										<a href="javascript:void(0)">Ventas</a>
+									</li>
+									<li class="slide {{ request()->is('ventas/lista') ? 'active' : '' }}">
+										<a href="{{route('ventas', ['accion' => 'lista'])}}" class="side-menu__item">
+											<svg xmlns="http://www.w3.org/2000/svg" class="side-menu-doublemenu__icon" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="32" y="104" width="56" height="96" opacity="0.2"/><path d="M32,56H224a0,0,0,0,1,0,0V192a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V56A0,0,0,0,1,32,56Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="32" y1="104" x2="224" y2="104" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="32" y1="152" x2="224" y2="152" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="88" y1="104" x2="88" y2="200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+											Lista de Ventas
+										</a>
+									</li>
+									<li class="slide {{ request()->is('ventas/crear') ? 'active' : '' }}">
+										<a href="{{route('ventas', ['accion' => 'crear'])}}" class="side-menu__item">
+											<svg xmlns="http://www.w3.org/2000/svg" class="side-menu-doublemenu__icon" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polygon points="152 32 152 88 208 88 152 32" opacity="0.2"/><path d="M200,224H56a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h96l56,56V216A8,8,0,0,1,200,224Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="152 32 152 88 208 88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="96" y1="136" x2="160" y2="136" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="96" y1="168" x2="160" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+											Crear Venta
+										</a>
+									</li>
+								</ul>
+							</li>
+							<!-- End::slide Ventas -->
+
 						</ul>
 						<ul class="doublemenu_bottom-menu main-menu mb-0 border-top">
 							
