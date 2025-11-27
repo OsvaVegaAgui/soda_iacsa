@@ -13,8 +13,10 @@ export default defineConfig({
                 'resources/css/app.css', 
                 'resources/sass/app.scss', 
                 'resources/js/app.js',
-  
                 // Resources assets js file paths
+                'resources/assets/js/milton/crear-venta.js',
+                'resources/assets/js/milton/lista-venta.js',
+                'resources/assets/js/milton/ver-venta.js',
                 'resources/assets/js/add-products',
                 'resources/assets/js/alerts',
                 'resources/assets/js/analytics-dashboard',
@@ -133,6 +135,8 @@ export default defineConfig({
                 'resources/assets/js/validation',
                 'resources/assets/js/widgets',
                 'resources/assets/js/stacy',
+                'resources/assets/js/productos-soda2',
+                
             ],
             refresh: true,
         }),
@@ -159,6 +163,7 @@ export default defineConfig({
                   'resources/assets/js/apexcharts-stock-prices.js',
                   'resources/assets/js/apexcharts-dayjs.js',
                   'resources/assets/js/dataseries.js',
+                  'resources/assets/js/form-wizard.js',
                   'resources/assets/js/form-wizard.js',
                 ]),
                 dest: 'assets/'

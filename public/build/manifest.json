@@ -54,7 +54,7 @@
     "isEntry": true
   },
   "resources/assets/js/apexcharts-dayjs.js": {
-    "file": "assets/apexcharts-dayjs-i-LW_FVc.js",
+    "file": "assets/apexcharts-dayjs-n1jF1Na0.js",
     "name": "apexcharts-dayjs",
     "src": "resources/assets/js/apexcharts-dayjs.js",
     "isEntry": true
@@ -258,10 +258,13 @@
     "isEntry": true
   },
   "resources/assets/js/custom-switcher.js": {
-    "file": "assets/custom-switcher-D53C3_If.js",
+    "file": "assets/custom-switcher-i9kE1Mlv.js",
     "name": "custom-switcher",
     "src": "resources/assets/js/custom-switcher.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "resources/assets/js/defaultmenu.js"
+    ]
   },
   "resources/assets/js/custom.js": {
     "file": "assets/custom-B-UavADZ.js",
@@ -288,7 +291,7 @@
     "isEntry": true
   },
   "resources/assets/js/defaultmenu.js": {
-    "file": "assets/defaultmenu-DLO3umBv.js",
+    "file": "assets/defaultmenu-CQM6T5hV.js",
     "name": "defaultmenu",
     "src": "resources/assets/js/defaultmenu.js",
     "isEntry": true
@@ -467,6 +470,24 @@
     "src": "resources/assets/js/medical-dashboard.js",
     "isEntry": true
   },
+  "resources/assets/js/milton/crear-venta.js": {
+    "file": "assets/crear-venta-qtIjcGri.js",
+    "name": "crear-venta",
+    "src": "resources/assets/js/milton/crear-venta.js",
+    "isEntry": true
+  },
+  "resources/assets/js/milton/lista-venta.js": {
+    "file": "assets/lista-venta-DN10fOwB.js",
+    "name": "lista-venta",
+    "src": "resources/assets/js/milton/lista-venta.js",
+    "isEntry": true
+  },
+  "resources/assets/js/milton/ver-venta.js": {
+    "file": "assets/ver-venta-BJxHaaZD.js",
+    "name": "ver-venta",
+    "src": "resources/assets/js/milton/ver-venta.js",
+    "isEntry": true
+  },
   "resources/assets/js/modal.js": {
     "file": "assets/modal-D1ojdTAx.js",
     "name": "modal",
@@ -519,6 +540,12 @@
     "file": "assets/product-details-DIOPk4Wx.js",
     "name": "product-details",
     "src": "resources/assets/js/product-details.js",
+    "isEntry": true
+  },
+  "resources/assets/js/productos-soda2.js": {
+    "file": "assets/productos-soda2-vtDrvAw_.js",
+    "name": "productos-soda2",
+    "src": "resources/assets/js/productos-soda2.js",
     "isEntry": true
   },
   "resources/assets/js/products.js": {
@@ -708,18 +735,21 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-B_mzDT9c.css",
+    "file": "assets/app-B344wjoz.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-B-UavADZ.js",
+    "file": "assets/app-DJM1CJ80.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "resources/assets/js/custom.js"
+    ]
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-CfvWokUt.css",
+    "file": "assets/app-eFk1F1cu.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   }

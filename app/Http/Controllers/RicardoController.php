@@ -17,11 +17,21 @@ class RicardoController extends Controller
             case 'crear':
                 return $this->crear();
         }
+
+        switch ($accion) {
+            case 'lista':
+                return $this->lista();
+        }
     }
 
     protected function crear()
     {
         return view('pages.productos_cocina.crear');
+    }
+
+    protected function lista()
+    {
+        return view('pages.productos_cocina.lista');
     }
 
 
