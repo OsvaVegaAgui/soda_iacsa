@@ -1,0 +1,168 @@
+/* =========================================
+   FUENTE GLOBAL
+========================================= */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: #fff;
+    color: #1A1A1A;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #49B751;
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+.modern-nav {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.90);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    padding: 12px 0 !important;
+}
+
+.modern-nav .navbar-brand img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.social-link i {
+    font-size: 1.35rem;
+    color: #1A1A1A;
+    transition: .3s ease;
+}
+.social-link:hover i {
+    color: #49B751;
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   TABS
+========================================= */
+.new-menu-tabs {
+    gap: 22px;
+}
+
+.tab-card {
+    background: linear-gradient(145deg, #f8fff9, #dff6e5);
+    border: none;
+    padding: 14px 30px;
+    border-radius: 18px;
+    font-weight: 600;
+    color: #2e2e2e;
+    box-shadow: 0 6px 16px rgba(80, 170, 98, 0.20);
+    transition: all .35s ease;
+}
+
+.tab-card i {
+    color: #49B751;
+    font-size: 1.1rem;
+}
+.tab-card:hover {
+    transform: translateY(-6px) scale(1.04);
+    background: #e8ffe8;
+    box-shadow: 0 10px 26px rgba(80, 170, 98, 0.35);
+}
+
+.tab-card.active {
+    background: #49B751 !important;
+    color: #f8f5f5 !important;
+    box-shadow: 0 12px 30px rgba(73,183,81,0.45);
+}
+.tab-card.active i {
+    color: #0a58ca;
+}
+
+/* =========================================
+   ITEMS DEL MENÚ
+========================================= */
+.menu-item {
+    cursor: pointer;
+    transition: .25s ease;
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid #ececec;
+    margin-bottom: 12px;
+    background: #fff;
+}
+
+.menu-item:hover {
+    background-color: #65e982;
+    transform: translateX(6px);
+}
+
+.menu-item p.fw-bold {
+    color: #49B751 !important;
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   FOOTER DESTACADO
+========================================= */
+.main-footer {
+    background: linear-gradient(135deg, #0D4C8E 0%, #49B751 100%);
+    padding: 45px 0;
+    margin-top: 60px;
+    border-top: 4px solid #49B751;
+    color: #eee;
+}
+
+.footer-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #141414;
+    margin-bottom: 5px;
+}
+
+.footer-sub {
+    color: #1a1919;
+    font-size: .9rem;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 768px) {
+
+    .new-menu-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tab-card {
+        text-align: center;
+    }
+}
+
+/* =========================================
+   LOADER (GIF DE CARGA)
+========================================= */
+
+#page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity .4s ease, visibility .4s ease;
+}
+
+#page-loader img {
+    width: 300px;
+    height: auto;
+}
+
+#page-loader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
