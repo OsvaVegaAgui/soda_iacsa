@@ -132,7 +132,7 @@ export default defineConfig({
                 'resources/assets/js/us-merc-en',
                 'resources/assets/js/validation',
                 'resources/assets/js/widgets',
-                
+                'resources/assets/js/stacy',
             ],
             refresh: true,
         }),

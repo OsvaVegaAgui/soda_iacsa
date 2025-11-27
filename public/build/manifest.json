@@ -617,6 +617,12 @@
     "src": "resources/assets/js/spain.js",
     "isEntry": true
   },
+  "resources/assets/js/stacy.js": {
+    "file": "assets/stacy-CKGMxJuo.js",
+    "name": "stacy",
+    "src": "resources/assets/js/stacy.js",
+    "isEntry": true
+  },
   "resources/assets/js/sticky.js": {
     "file": "assets/sticky-iyP9-pex.js",
     "name": "sticky",
@@ -702,7 +708,7 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-DgxqoI3o.css",
+    "file": "assets/app-B_mzDT9c.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },

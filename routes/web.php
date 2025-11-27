@@ -10,6 +10,7 @@ use App\Http\Controllers\MarcosController;
 use App\Http\Controllers\OsvaldoController;
 use App\Http\Controllers\LuisController;
 use App\Http\Controllers\StacyController;
+use App\Http\Controllers\MenuAdminController;
 use App\Http\Controllers\MiltonController;
 use App\Http\Controllers\KeylorController;
 
@@ -39,13 +40,13 @@ Route::prefix('generar-ticketes')->controller(OsvaldoController::class)->group(f
     Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('generar-ticketes');
 });
 
-Route::prefix('menu-admin')->controller(LuisController::class)->group(function () {
+/*Route::prefix('menu-admin')->controller(LuisController::class)->group(function () {
     Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('menu-admin');
 });
 
 Route::prefix('menu-site')->controller(StacyController::class)->group(function () {
     Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('menu-site');
-});
+});*/
 
 Route::prefix('ventas')->controller(MiltonController::class)->group(function () {
     Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('ventas');
@@ -54,3 +55,16 @@ Route::prefix('ventas')->controller(MiltonController::class)->group(function () 
 Route::prefix('usuarios')->controller(KeylorController::class)->group(function () {
     Route::match(['GET','POST'], '/{accion}/{id?}', 'resolver')->name('usuarios');
 });
+
+
+/*stacy*/ 
+
+Route::prefix('menu-admin')->controller(MenuAdminController::class)->group(function () {
+    Route::match(['GET', 'POST'], '/{accion}/{id?}', 'resolver')->name('menu_admin');
+});
+
+
+
+/*Route::get('/menu-admin', [MenuAdminController::class, 'seleccionar'])->name('menu_admin.seleccionar');
+Route::get('/menu-admin/editar/{tipo}', [MenuAdminController::class, 'editarTipo'])->name('menu_admin.editar_tipo');
+Route::post('/menu-admin/actualizar', [MenuAdminController::class, 'actualizar'])->name('menu_admin.actualizar');*/

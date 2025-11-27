@@ -22,6 +22,7 @@ Route::get('/', function () {
     return redirect('index'); // This will redirect '/' to '/index'
 });
 
+
 // Route::get('/', [DashboardsController::class, 'index']);
 Route::get('index', [DashboardsController::class, 'index']);
 
@@ -43,3 +44,8 @@ Route::get('form-wizards', [PagesController::class, 'form_wizards']);
 Route::get('data-tables', [TablesController::class, 'data_tables']);
 Route::get('grid-tables', [TablesController::class, 'grid_tables']);
 Route::get('tables', [TablesController::class, 'tables']);
+
+
+
+
+
