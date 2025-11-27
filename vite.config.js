@@ -134,6 +134,7 @@ export default defineConfig({
                 'resources/assets/js/us-merc-en',
                 'resources/assets/js/validation',
                 'resources/assets/js/widgets',
+                'resources/assets/js/productos-soda2',
                 
             ],
             refresh: true,
@@ -161,6 +162,7 @@ export default defineConfig({
                   'resources/assets/js/apexcharts-stock-prices.js',
                   'resources/assets/js/apexcharts-dayjs.js',
                   'resources/assets/js/dataseries.js',
+                  'resources/assets/js/form-wizard.js',
                   'resources/assets/js/form-wizard.js',
                 ]),
                 dest: 'assets/'

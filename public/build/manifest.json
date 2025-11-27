@@ -542,6 +542,12 @@
     "src": "resources/assets/js/product-details.js",
     "isEntry": true
   },
+  "resources/assets/js/productos-soda2.js": {
+    "file": "assets/productos-soda2-vtDrvAw_.js",
+    "name": "productos-soda2",
+    "src": "resources/assets/js/productos-soda2.js",
+    "isEntry": true
+  },
   "resources/assets/js/products.js": {
     "file": "assets/products-CDTG4n1Y.js",
     "name": "products",
