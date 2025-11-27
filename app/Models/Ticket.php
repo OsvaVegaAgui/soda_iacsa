@@ -10,7 +10,12 @@ class Ticket extends Model
     protected $primaryKey = 'id_ticket';
 
     protected $fillable = [
-        'nombre', 'codigo', 'categoria_d', 'precio', 'cantidad', 'fecha',
+        'nombre', 
+        'codigo', 
+        'categoria_d', 
+        'precio', 
+        'cantidad', 
+        'fecha',
     ];
 
     protected $casts = [
@@ -19,7 +24,6 @@ class Ticket extends Model
         'fecha'    => 'date',
     ];
 
-    // Relación: ticket pertenece a una categoría
     public function categoria()
     {
         return $this->belongsTo(CategoriaTicket::class, 'categoria_d', 'id_categoria');
