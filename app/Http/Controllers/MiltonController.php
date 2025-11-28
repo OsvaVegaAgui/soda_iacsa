@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator; // para validar los datos
 use App\Models\Venta;
+use App\Models\User;
 use App\Models\DetalleVenta;
-
+use App\Models\ProductoSoda;
+use App\Models\Ticket;
 class MiltonController extends Controller
 {
     /**
@@ -39,6 +42,10 @@ class MiltonController extends Controller
                     return redirect()->route('ventas', ['accion' => 'lista']);
                 }
                 return $this->ver($id);
+            
+            case 'buscar-producto':
+                // Buscar producto por código
+                return $this->buscarProducto($request);
             
             default:
                 // Si la acción no existe, redirigir a la lista
@@ -148,15 +155,135 @@ class MiltonController extends Controller
      */
     protected function ver($id)
     {
-        // Buscar la venta con sus relaciones
-        $venta = Venta::with(['user', 'detalles'])->find($id);
+        // Buscar la venta con su usuario
+        $venta = Venta::with(['user'])->find($id);
         
         // Si no existe la venta, redirigir a la lista
         if (!$venta) {
             return redirect()->route('ventas', ['accion' => 'lista'])
                 ->with('error', 'Venta no encontrada');
         }
+
+        // Cargar detalles con el nombre proveniente del catálogo correspondiente
+        $detalles = DetalleVenta::query()
+            ->where('venta_id', $venta->id)
+            ->leftJoin('productos_soda as ps', 'ps.codigo_softland', '=', 'detalle_venta.codigo')
+            ->leftJoin('ticket as tk', 'tk.codigo', '=', 'detalle_venta.codigo')
+            ->select(
+                'detalle_venta.*',
+                DB::raw("COALESCE(ps.nombre, tk.nombre) as nombre_producto")
+            )
+            ->get();
+
+        $venta->setRelation('detalles', $detalles);
         
         return view('pages.ventas.ver', compact('venta'));
+    }
+
+    /**
+     * Busca productos para el selector remoto o por código exacto.
+     */
+    protected function buscarProducto(Request $request)
+    {
+        // Si viene el parámetro term (Select2), devolver un listado.
+        if ($request->filled('term')) {
+            $term = $request->input('term');
+
+            $productosSoda = ProductoSoda::query()
+                ->select('codigo_softland as codigo', 'nombre', 'precio')
+                ->where('activo', true)
+                ->where(function ($query) use ($term) {
+                    $query->where('codigo_softland', 'like', '%' . $term . '%')
+                        ->orWhere('nombre', 'like', '%' . $term . '%');
+                })
+                ->limit(15)
+                ->get()
+                ->map(function ($producto) {
+                    return [
+                        'codigo' => $producto->codigo,
+                        'nombre' => $producto->nombre,
+                        'precio' => $producto->precio,
+                        'tipo' => 'soda',
+                        'etiqueta' => sprintf('S - %s - %s', $producto->nombre, $producto->codigo),
+                    ];
+                });
+
+            $productosTicket = Ticket::query()
+                ->select('codigo', 'nombre', 'precio')
+                ->where(function ($query) use ($term) {
+                    $query->where('codigo', 'like', '%' . $term . '%')
+                        ->orWhere('nombre', 'like', '%' . $term . '%');
+                })
+                ->limit(15)
+                ->get()
+                ->map(function ($producto) {
+                    return [
+                        'codigo' => $producto->codigo,
+                        'nombre' => $producto->nombre,
+                        'precio' => $producto->precio,
+                        'tipo' => 'ticket',
+                        'etiqueta' => sprintf('T - %s - %s', $producto->nombre, $producto->codigo),
+                    ];
+                });
+
+            $productos = $productosSoda->concat($productosTicket)->values();
+
+            return response()->json([
+                'success' => true,
+                'productos' => $productos,
+            ]);
+        }
+
+        // Búsqueda puntual por código (respaldo).
+        $validator = Validator::make($request->all(), [
+            'codigo'       => ['required', 'string'],
+        ], [
+            'codigo.required' => 'El código es obligatorio.',
+            'codigo.string'   => 'El código debe ser un texto válido.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Revise los campos del formulario.',
+                'errors'  => $validator->errors(),
+            ], 422);
+        }
+
+        $codigo = $request->codigo;
+        $productoSoda = ProductoSoda::where('codigo_softland', $codigo)
+            ->where('activo', true)
+            ->first();
+
+        if ($productoSoda) {
+            return response()->json([
+                'success' => true,
+                'producto' => [
+                    'codigo' => $productoSoda->codigo_softland,
+                    'nombre' => $productoSoda->nombre,
+                    'precio' => $productoSoda->precio,
+                    'tipo' => 'soda',
+                ]
+            ]);
+        }
+
+        $productoTicket = Ticket::where('codigo', $codigo)->first();
+
+        if ($productoTicket) {
+            return response()->json([
+                'success' => true,
+                'producto' => [
+                    'codigo' => $productoTicket->codigo,
+                    'nombre' => $productoTicket->nombre,
+                    'precio' => $productoTicket->precio,
+                    'tipo' => 'ticket',
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Producto no encontrado con el código proporcionado',
+        ], 404);
     }
 }

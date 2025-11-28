@@ -87,6 +87,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>Nombre</th>
                                         <th>Código</th>
                                         <th>Cantidad Vendida</th>
                                         <th>Precio Unitario</th>
@@ -97,6 +98,7 @@
                                     @forelse($venta->detalles as $detalle)
                                         <tr>
                                             <td>{{ $detalle->id }}</td>
+                                            <td>{{ $detalle->nombre_producto ?? 'N/A' }}</td>
                                             <td>{{ $detalle->codigo }}</td>
                                             <td>{{ $detalle->cantidad_vendida }}</td>
                                             <td>₡{{ number_format($detalle->precio_unitario, 2) }}</td>
@@ -153,21 +155,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     @vite('resources/assets/js/datatables.js')
-
-    <script>
-        // Inicializar DataTable cuando el documento esté listo
-        $(document).ready(function () {
-            $('#tablaDetallesVenta').DataTable({
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json'
-                },
-                responsive: true,
-                order: [[0, 'asc']], // Ordenar por ID ascendente
-                paging: false, // Desactivar paginación si hay pocos registros
-                searching: false // Desactivar búsqueda en esta vista
-            });
-        });
-    </script>
+    @vite('resources/assets/js/milton/ver-venta.js')
 
 @endsection
 
